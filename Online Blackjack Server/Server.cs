@@ -12,20 +12,21 @@ namespace Online_Blackjack_Server
         private static ConcurrentDictionary<int, Client> activeClients; // Keeping it thread safe
 
         public static string versionId = "1.0A";
+        const int PORT = 6479;
 
         int currentId = 0; // Every connected client increases this by 1. POTENTIAL ERROR: When number of connected clients reach the maximum integer limit (2 billion something)
 
         public async Task Start()
         {
             activeClients = new ConcurrentDictionary<int, Client>();
-            listener = new TcpListener(IPAddress.Any, 6479);
+            listener = new TcpListener(IPAddress.Any, PORT);
             listener.Start();
 
             ClientPingHandler clientPingHandler = new ClientPingHandler();
             clientPingHandler.Start();
 
             Console.WriteLine("Server started!");
-            Console.WriteLine($"Listening on port {6479}");
+            Console.WriteLine($"Listening on port {PORT}");
 
             while (true)
             {
