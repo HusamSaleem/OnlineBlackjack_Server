@@ -1,9 +1,6 @@
-﻿
-using DotNetty.Common.Utilities;
-using Online_Blackjack_Server.Packets;
+﻿using Online_Blackjack_Server.Packets;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace Online_Blackjack_Server
 {
@@ -99,10 +96,12 @@ namespace Online_Blackjack_Server
             if (type == Matchmaking.TWO_PLAYERS)
             {
                 twoPlayerQueue.Remove(client);
-            } else if (type == Matchmaking.THREE_PLAYERS)
+            }
+            else if (type == Matchmaking.THREE_PLAYERS)
             {
                 threePlayerQueue.Remove(client);
-            } else if (type == Matchmaking.FOUR_PLAYERS)
+            }
+            else if (type == Matchmaking.FOUR_PLAYERS)
             {
                 fourPlayerQueue.Remove(client);
             }

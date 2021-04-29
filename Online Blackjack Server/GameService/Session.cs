@@ -25,7 +25,7 @@ namespace Online_Blackjack_Server
     class Session
     {
         public Blackjack blackjackGame;
-        ConcurrentDictionary<int,Client> players; // So if players leave, this will be thread-safe
+        ConcurrentDictionary<int, Client> players; // So if players leave, this will be thread-safe
         public int gameId { get; set; }
 
         public static int MONEY_FOR_EACH_PLAYER = 100;
@@ -78,7 +78,7 @@ namespace Online_Blackjack_Server
         {
             if (!newGame)
             {
-                SendDealerHand(); 
+                SendDealerHand();
             }
 
             // Initialize Deck if not intialized already
@@ -189,7 +189,7 @@ namespace Online_Blackjack_Server
 
             timer.Elapsed += new ElapsedEventHandler(SetUp);
             timer.AutoReset = false; // Only call this method once, then stop the timer
-            SendClientDelayTimes(DELAY_BEFORE_GAME_START/1000, Packet.DELAY_TIME_BEFORE_GAME);
+            SendClientDelayTimes(DELAY_BEFORE_GAME_START / 1000, Packet.DELAY_TIME_BEFORE_GAME);
             timer.Start();
         }
 
@@ -199,7 +199,7 @@ namespace Online_Blackjack_Server
 
             timer.Elapsed += new ElapsedEventHandler(SetUp);
             timer.AutoReset = false; // Only call this method once, then stop the timer
-            SendClientDelayTimes(DELAY_BEFORE_GAME_END/1000, Packet.DELAY_TIME_AFTER_GAME);
+            SendClientDelayTimes(DELAY_BEFORE_GAME_END / 1000, Packet.DELAY_TIME_AFTER_GAME);
             timer.Start();
         }
         private void SendClientDelayTimes(int time, Packet type)
@@ -329,7 +329,7 @@ namespace Online_Blackjack_Server
         {
             foreach (Client client in players.Values)
             {
-                client.RequestBet(PLACE_BET_TIMER/1000);
+                client.RequestBet(PLACE_BET_TIMER / 1000);
             }
         }
 
@@ -345,7 +345,8 @@ namespace Online_Blackjack_Server
                 client.player.betPlaced = true;
 
                 client.SendValidBetPacket();
-            } else
+            }
+            else
             {
                 client.SendInvalidBetPacket();
             }
@@ -365,7 +366,8 @@ namespace Online_Blackjack_Server
                 {
                     client.SendBlackjackPacket();
                     client.player.isMyTurn = false;
-                } else if (client.player.isBust)
+                }
+                else if (client.player.isBust)
                 {
                     client.SendBustPacket();
                     client.player.isMyTurn = false;
@@ -396,7 +398,7 @@ namespace Online_Blackjack_Server
             {
                 if (client.player.money == 0 && !client.player.spectateMode)
                 {
-                    TurnPlayerToSpectator(client); 
+                    TurnPlayerToSpectator(client);
                 }
             }
         }

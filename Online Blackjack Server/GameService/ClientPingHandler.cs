@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Timers;
 
 namespace Online_Blackjack_Server
@@ -39,7 +37,8 @@ namespace Online_Blackjack_Server
                 {
                     client.Ping();
                     client.numOfRetries++;
-                } else if ((client.lastTimePinged - timeChecked) >= -THRESHOLD)
+                }
+                else if ((client.lastTimePinged - timeChecked) >= -THRESHOLD)
                 {
                     client.numOfRetries = 0;
                 }
