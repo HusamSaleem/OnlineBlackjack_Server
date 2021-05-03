@@ -71,13 +71,17 @@ namespace Online_Blackjack_Server
                 if (i <= 8)
                 {
                     cardId = vals[j] + " of " + suite; // Optimize to stringbuilder?
-                    suiteSet.Add(new Card(cardId, vals[j], false));
+                    Card card = new Card(cardId, vals[j], false);
+                    card.uniqueId = new Random().Next(-9999, 9999);
+                    suiteSet.Add(card);
                     j++;
                 }
                 else
                 {
                     cardId = faces[faceIndex] + " of " + suite; // Optimize to stringbuilder?
-                    suiteSet.Add(new Card(cardId, 10, false));
+                    Card card = new Card(cardId, 10, false);
+                    card.uniqueId = new Random().Next(-9999, 9999);
+                    suiteSet.Add(card);
                     faceIndex++;
                 }
             }
@@ -86,6 +90,7 @@ namespace Online_Blackjack_Server
             cardId = faces[3] + " of " + suite;
 
             Card aceCard = new Card(cardId, 11, false);
+            aceCard.uniqueId = new Random().Next(-9999, 9999);
             aceCard.isAce = true;
             suiteSet.Add(aceCard);
 

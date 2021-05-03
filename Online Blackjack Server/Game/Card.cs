@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Online_Blackjack_Server
 {
@@ -9,6 +10,9 @@ namespace Online_Blackjack_Server
         public string cardId { get; set; }
 
         public bool isAce { get; set; }// Default value = 11, otherwise its a 1;  T: 11 F: 1
+
+        [JsonIgnore]
+        public int uniqueId { get; set; }
 
         public Card(string cardId, int value, bool hidden)
         {

@@ -11,7 +11,7 @@ namespace Online_Blackjack_Server
         TcpListener listener;
         private static ConcurrentDictionary<int, Client> activeClients; // Keeping it thread safe
 
-        public static string versionId = "1.0A";
+        public static string versionId = "1.0B";
         const int PORT = 6479;
 
         int currentId = 0; // Every connected client increases this by 1. POTENTIAL ERROR: When number of connected clients reach the maximum integer limit (2 billion something)
