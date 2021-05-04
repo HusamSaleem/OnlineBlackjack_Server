@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Online_Blackjack_Server.Game;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Online_Blackjack_Server
 {
@@ -10,22 +12,13 @@ namespace Online_Blackjack_Server
     class Blackjack
     {
         const int NUM_OF_DECKS = 4;
-        const int NUM_OF_CARDS_PER_DECK = 52;
-        const int NUM_OF_CARDS_PER_SUITE = 12; // Not including Ace
         const int NUM_OF_TIMES_TO_SHUFFLE = 3; // Shuffles the deck 3 times, just so there is more randomness
         const int BLACKJACK_MAX = 21;
         const int DEALER_GOAL = 17; // Dealer tries to hit until the cards are at 17
 
-        List<Card> spades; // Black
-        List<Card> hearts; // Red
-        List<Card> diamonds; // Red
-        List<Card> clubs; // Black
-
         List<Card> deck; // Contains all cards and shuffled for the game
 
         public Dealer dealer;
-
-        static Random rng = new Random();
 
         public Blackjack()
         {
@@ -34,95 +27,39 @@ namespace Online_Blackjack_Server
 
         public void Start()
         {
-            FillNormalDeck();
-            GenerateDeck();
+            CreateDeck();
+        }
+
+        // Generates and shuffles the deck
+        private void CreateDeck()
+        {
+            for (int i = 0; i < NUM_OF_DECKS; i++)
+            {
+                deck.AddRange(deck.GenerateDeck().ToList());
+            }
+
+            // Add a unique id and make sure ace cards are marked as ace cards
+            deck.ForEach(card =>
+            {
+                if (card.cardId.Contains("Ace"))
+                {
+                    card.isAce = true;
+                }
+
+                card.uniqueId = new Random().Next(-9999, 9999);
+            });
+
+            deck.ForEach(card =>
+            {
+                Console.WriteLine(card.value);
+            });
 
             for (int i = 0; i < NUM_OF_TIMES_TO_SHUFFLE; i++)
             {
-                RandomizeDeck(deck);
+                deck.Shuffle();
             }
         }
 
-        // Fills up the lists of spades, hearts, diamonds & clubs
-        private void FillNormalDeck()
-        {
-            spades = new List<Card>();
-            hearts = new List<Card>();
-            clubs = new List<Card>();
-            diamonds = new List<Card>();
-
-            spades = FillSuite(spades, "Spades");
-            hearts = FillSuite(hearts, "Hearts");
-            clubs = FillSuite(clubs, "Clubs");
-            diamonds = FillSuite(diamonds, "Diamonds");
-        }
-
-        private List<Card> FillSuite(List<Card> suiteSet, string suite)
-        {
-            int[] vals = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }; // Ace will default as 11 for now until client request for it to be 1
-            string[] faces = { "King", "Queen", "Jack", "Ace" };
-
-            int faceIndex = 0;
-            int j = 0;
-            string cardId;
-            for (int i = 0; i < NUM_OF_CARDS_PER_SUITE; i++)
-            {
-                // Generate normal cards
-                if (i <= 8)
-                {
-                    cardId = vals[j] + " of " + suite; // Optimize to stringbuilder?
-                    Card card = new Card(cardId, vals[j], false);
-                    card.uniqueId = new Random().Next(-9999, 9999);
-                    suiteSet.Add(card);
-                    j++;
-                }
-                else
-                {
-                    cardId = faces[faceIndex] + " of " + suite; // Optimize to stringbuilder?
-                    Card card = new Card(cardId, 10, false);
-                    card.uniqueId = new Random().Next(-9999, 9999);
-                    suiteSet.Add(card);
-                    faceIndex++;
-                }
-            }
-
-            // Ace
-            cardId = faces[3] + " of " + suite;
-
-            Card aceCard = new Card(cardId, 11, false);
-            aceCard.uniqueId = new Random().Next(-9999, 9999);
-            aceCard.isAce = true;
-            suiteSet.Add(aceCard);
-
-            return suiteSet;
-        }
-
-        private void GenerateDeck()
-        {
-            deck = new List<Card>();
-
-            // Add 52 deck of cards * how many total decks
-            for (int i = 0; i < NUM_OF_CARDS_PER_DECK * NUM_OF_DECKS; i++)
-            {
-                deck.AddRange(spades);
-                deck.AddRange(hearts);
-                deck.AddRange(clubs);
-                deck.AddRange(diamonds);
-            }
-        }
-
-        private void RandomizeDeck(List<Card> deck)
-        {
-            int n = deck.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = rng.Next(n + 1);
-                Card temp = deck[k];
-                deck[k] = deck[n];
-                deck[n] = temp;
-            }
-        }
 
         // Gets and deletes the card from the deck
         private Card GetCard()
