@@ -49,11 +49,6 @@ namespace Online_Blackjack_Server
                 card.uniqueId = new Random().Next(-9999, 9999);
             });
 
-            deck.ForEach(card =>
-            {
-                Console.WriteLine(card.value);
-            });
-
             for (int i = 0; i < NUM_OF_TIMES_TO_SHUFFLE; i++)
             {
                 deck.Shuffle();
