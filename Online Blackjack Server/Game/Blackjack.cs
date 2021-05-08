@@ -39,6 +39,7 @@ namespace Online_Blackjack_Server
             }
 
             // Add a unique id and make sure ace cards are marked as ace cards
+            Random rng = new Random();
             deck.ForEach(card =>
             {
                 if (card.cardId.Contains("Ace"))
@@ -46,7 +47,7 @@ namespace Online_Blackjack_Server
                     card.isAce = true;
                 }
 
-                card.uniqueId = new Random().Next(-9999, 9999);
+                card.uniqueId = rng.Next(-9999, 9999);
             });
 
             for (int i = 0; i < NUM_OF_TIMES_TO_SHUFFLE; i++)
