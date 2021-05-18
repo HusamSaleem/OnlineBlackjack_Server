@@ -7,7 +7,8 @@
 - A basic matchmaking service where it can be easily scaled to as many players as you want (MatchmakingService Class). However, if you do add more players to a single game session, then you would have to also modify the UI of the clientside app to support the players you want. 
 - Each Game Session is essentially running on a different thread
 - Uses JSON to send and receieve data as the default way to do so
-- Autoamtically resends the last data sent that has been lost or corrupted on request by the client
+- Automatically resends the last data sent that has been lost or corrupted on request by the client
+- Everything that has to do with the game is done by the server (NEVER TRUST THE CLIENT! :) )
 
 # How it works
 - When a client connects from app, they get added to an active client Dictionary/HashMap
