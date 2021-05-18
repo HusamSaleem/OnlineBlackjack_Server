@@ -10,10 +10,6 @@
 - Automatically resends the last data sent that has been lost or corrupted on request by the client
 - Everything that has to do with the game is done by the server (NEVER TRUST THE CLIENT! :) )
 
-# How it works
-- When a client connects from app, they get added to an active client Dictionary/HashMap
-- If that client had closed the app, they are given 3 chances every 60 seconds to respond with a ping. If they don't respond, then the server assumes they left and removes them from the active client list. 
-
 # Setup
 - First, import this repository into Microsoft Visual Studio or whatever IDE you use
 - Next up, if you want to change the port that your server listens on, then you can do so in the Server Class (Default port is 6479)
